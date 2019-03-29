@@ -17,8 +17,8 @@ public final class SetGenerator {
          */
 
         Set<GeneralSymbol> aux = new HashSet<>();
-        //TODO executa o laco até que first não seja mais atualizado
-        for (int i = 0; i < 10; i++) {
+        //TODO executar o laco até que first não seja mais atualizado
+        for (int i=0; i<10; i++) {
             for (Production element : g.getProductions()) {
                 //caso o primeiro elemento da producao seja um SpecialSymbol epsilon ou um terminal
                 if (element.getProduction().get(0).equals(SpecialSymbol.EPSILON) || ((Symbol) element.getProduction().get(0)).isTerminal()) {
@@ -101,8 +101,8 @@ public final class SetGenerator {
         Set<GeneralSymbol> aux = new HashSet<>();
         boolean starter = true;
 
-        //TODO executa o laco até que follow não seja mais atualizado
-        for(int k = 0;k<10;k++) {
+        //TODO executar o laco até que follow não seja mais atualizado
+        for(int i=0; i<10; i++) {
             for(Production element : g.getProductions()) {
                 //caso seja o primeiro, adiciona $ no follow
                 if(starter) {
