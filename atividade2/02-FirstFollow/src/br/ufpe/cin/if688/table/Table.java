@@ -66,10 +66,27 @@ public final class Table {
             }
         }
 
-        System.out.println(g.toString() + first);
+        System.out.print(g);
+        System.out.println(first);
         System.out.println(follow);
-        System.out.println(parsingTable);
+        System.out.println(sortTable(parsingTable));
 
-        return parsingTable;
+        return sortTable(parsingTable);
+    }
+
+    static private Map<LL1Key, List<GeneralSymbol>> sortTable( Map<LL1Key, List<GeneralSymbol>> parsingTable) {
+        // This sorts only the key, as the values in the set must be in the order of the rule
+        Map<LL1Key, List<GeneralSymbol>> sortedMap = new TreeMap<LL1Key, List<GeneralSymbol>>(new Comparator<LL1Key>() {
+            @Override
+            public int compare(LL1Key t1, LL1Key t2) {
+                return t1.toString().compareTo(t2.toString());
+            }
+        });
+
+        parsingTable.forEach((k,v)->{
+            sortedMap.put(k, v);
+        });
+
+        return sortedMap;
     }
 }

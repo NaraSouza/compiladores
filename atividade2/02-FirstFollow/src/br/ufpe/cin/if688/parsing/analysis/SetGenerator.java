@@ -84,7 +84,7 @@ public final class SetGenerator {
             }
         }
 
-        return first;
+        return sortList(first);
     }
 
     public static Map<Nonterminal, Set<GeneralSymbol>> getFollow (Grammar g, Map<Nonterminal, Set<GeneralSymbol>> first) {
@@ -187,7 +187,43 @@ public final class SetGenerator {
             }
         }
 
-        return follow;
+        return sortList(follow);
+    }
+
+    static private Map<Nonterminal, Set<GeneralSymbol>> sortList(Map<Nonterminal, Set<GeneralSymbol>> firstOrFollow){
+
+        Map<Nonterminal, Set<GeneralSymbol>> sortedList = new TreeMap<Nonterminal, Set<GeneralSymbol>>(new Comparator<Nonterminal>() {
+            @Override
+            public int compare(Nonterminal o1, Nonterminal o2) {
+                return o1.toString().compareTo(o2.toString());
+            }
+        });
+
+        firstOrFollow.forEach((k,v)->{
+            List<GeneralSymbol> list = new ArrayList<>(v);
+            Collections.sort(list, new Comparator<GeneralSymbol>() {
+                @Override
+                public int compare(GeneralSymbol t1, GeneralSymbol t2) {
+                    return t1.toString().compareTo(t2.toString());
+                }
+            });
+            Set<GeneralSymbol> sortedSet = new HashSet<>();
+            for (GeneralSymbol gs : list){
+                sortedSet.add(gs);
+            }
+            sortedList.put(k, sortedSet);
+        });
+
+        Map<Nonterminal, Set<GeneralSymbol>> sortedMap = new TreeMap<>(new Comparator<Nonterminal>() {
+            @Override
+            public int compare(Nonterminal t1, Nonterminal t2) {
+                return t1.toString().compareTo(t2.toString());
+            }
+        });
+
+        sortedMap = sortedList;
+
+        return sortedMap;
     }
 
     //método para inicializar mapeamento nãoterminais -> conjunto de símbolos
