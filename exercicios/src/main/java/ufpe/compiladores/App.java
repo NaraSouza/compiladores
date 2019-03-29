@@ -15,10 +15,12 @@ public final class App {
 
         for(int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
-            if(!((c == '+') || (c == '-'))) {
-                output.append(c);
-            } else {
-                operations.push(c);
+            if(!Character.isWhitespace(c)) {
+                if(!((c == '+') || (c == '-') || (c == '*') || (c == '/'))) {
+                    output.append(c);
+                } else {
+                    operations.push(c);
+                }
             }
         }
         while(!operations.empty()) {
