@@ -1,0 +1,10 @@
+MainClass=1
+ClassDeclarationv=2
+VarDeclaration=3
+MethodDeclaration=4
+Type=5
+Statement=6
+Expression=7
+Expr=8
+Identifier=9
+INTEGER_LITERAL=10
