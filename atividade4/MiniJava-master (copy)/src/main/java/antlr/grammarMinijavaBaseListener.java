@@ -107,6 +107,30 @@ public class grammarMinijavaBaseListener implements grammarMinijavaListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExpression(grammarMinijavaParser.ExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIdentifier(grammarMinijavaParser.IdentifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdentifier(grammarMinijavaParser.IdentifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterInteger_literal(grammarMinijavaParser.Integer_literalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInteger_literal(grammarMinijavaParser.Integer_literalContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

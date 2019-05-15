@@ -58,4 +58,16 @@ public interface grammarMinijavaVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpression(grammarMinijavaParser.ExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link grammarMinijavaParser#identifier}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIdentifier(grammarMinijavaParser.IdentifierContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link grammarMinijavaParser#integer_literal}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInteger_literal(grammarMinijavaParser.Integer_literalContext ctx);
 }

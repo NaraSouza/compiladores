@@ -2,45 +2,49 @@ grammar grammarMinijava;
 
 goal : mainClass ( classDeclaration )* EOF;
 
-mainClass : 'class' Identifier '{' 'public' 'static' 'void' 'main' '(' 'String' '[' ']' Identifier ')' '{' statement '}'
+mainClass : 'class' identifier '{' 'public' 'static' 'void' 'main' '(' 'String' '[' ']' identifier ')' '{' statement '}'
  '}';
 
-classDeclaration : 'class' Identifier ( 'extends' Identifier )? '{' ( varDeclaration )* ( methodDeclaration )* '}';
+classDeclaration : 'class' identifier ( 'extends' identifier )? '{' ( varDeclaration )* ( methodDeclaration )* '}';
 
-varDeclaration : type Identifier ';';
+varDeclaration : type identifier ';';
 
-methodDeclaration : 'public' type Identifier '(' ( type Identifier ( ',' type Identifier )* )? ')' '{' ( varDeclaration )*
+methodDeclaration : 'public' type identifier '(' ( type identifier ( ',' type identifier )* )? ')' '{' ( varDeclaration )*
  ( statement )* 'return' expression ';' '}';
 
 type : 'int' '[' ']'
 |	'boolean'
 |	'int'
-|	Identifier;
+|	identifier;
 
 statement : '{' ( statement )* '}'
 |	'if' '(' expression ')' statement 'else' statement
 |	'while' '(' expression ')' statement
 |	'System.out.println' '(' expression ')' ';'
-|	Identifier '=' expression ';'
-|	Identifier '[' expression ']' '=' expression ';';
+|	identifier '=' expression ';'
+|	identifier '[' expression ']' '=' expression ';';
 
 expression	:	expression ( '&&' | '<' | '+' | '-' | '*' ) expression
 |	expression '[' expression ']'
 |	expression '.' 'length'
-|	expression '.' Identifier '(' ( expression ( ',' expression )* )? ')'
-|	INTEGER_LITERAL
+|	expression '.' identifier '(' ( expression ( ',' expression )* )? ')'
+|	integer_literal
 |	'true'
 |	'false'
-|	Identifier
+|	identifier
 |	'this'
 |	'new' 'int' '[' expression ']'
-|	'new' Identifier '(' ')'
+|	'new' identifier '(' ')'
 |	'!' expression
 |	'(' expression ')';
 
+identifier: Identifier;
+
+integer_literal: Integer_literal;
+
 Identifier : ([A-Za-z] | [_])(([A-Za-z] | [0-9]) | [_])*;
 
-INTEGER_LITERAL : [0-9]+;
+Integer_literal : [0-9]+;
 
 Comment: '/*' .*? '*/' -> skip;
 

@@ -87,4 +87,24 @@ public interface grammarMinijavaListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpression(grammarMinijavaParser.ExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link grammarMinijavaParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifier(grammarMinijavaParser.IdentifierContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link grammarMinijavaParser#identifier}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifier(grammarMinijavaParser.IdentifierContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link grammarMinijavaParser#integer_literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterInteger_literal(grammarMinijavaParser.Integer_literalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link grammarMinijavaParser#integer_literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitInteger_literal(grammarMinijavaParser.Integer_literalContext ctx);
 }

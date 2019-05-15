@@ -79,7 +79,7 @@ null
 null
 null
 Identifier
-INTEGER_LITERAL
+Integer_literal
 Comment
 Comment_in_line
 Whitespace
@@ -121,7 +121,7 @@ T__32
 T__33
 T__34
 Identifier
-INTEGER_LITERAL
+Integer_literal
 Comment
 Comment_in_line
 Whitespace
