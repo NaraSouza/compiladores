@@ -15,6 +15,41 @@ public class MiniJavaVisitor implements grammarMinijavaVisitor {
     }
 
     @Override
+    public Object visitMainClass(grammarMinijavaParser.MainClassContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Object visitClassDeclaration(grammarMinijavaParser.ClassDeclarationContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Object visitVarDeclaration(grammarMinijavaParser.VarDeclarationContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Object visitMethodDeclaration(grammarMinijavaParser.MethodDeclarationContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Object visitType(grammarMinijavaParser.TypeContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Object visitStatement(grammarMinijavaParser.StatementContext ctx) {
+        return null;
+    }
+
+    @Override
+    public Object visitExpression(grammarMinijavaParser.ExpressionContext ctx) {
+        return null;
+    }
+
+    @Override
     public Object visit(ParseTree parseTree) {
         return null;
     }

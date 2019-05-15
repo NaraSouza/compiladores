@@ -1,4 +1,4 @@
-// Generated from /home/nara/Downloads/MiniJava-master (copy)/src/main/java/antlr/grammarMinijava.g4 by ANTLR 4.7.2
+// Generated from /home/nara/Documentos/UFPE/Compiladores/compiladores/atividade4/MiniJava-master (copy)/src/main/java/antlr/grammarMinijava.g4 by ANTLR 4.7.2
 package antlr;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -16,4 +16,46 @@ public interface grammarMinijavaVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitGoal(grammarMinijavaParser.GoalContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link grammarMinijavaParser#mainClass}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMainClass(grammarMinijavaParser.MainClassContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link grammarMinijavaParser#classDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClassDeclaration(grammarMinijavaParser.ClassDeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link grammarMinijavaParser#varDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarDeclaration(grammarMinijavaParser.VarDeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link grammarMinijavaParser#methodDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMethodDeclaration(grammarMinijavaParser.MethodDeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link grammarMinijavaParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitType(grammarMinijavaParser.TypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link grammarMinijavaParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(grammarMinijavaParser.StatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link grammarMinijavaParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpression(grammarMinijavaParser.ExpressionContext ctx);
 }
