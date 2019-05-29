@@ -12,71 +12,80 @@ public class MiniJavaVisitor implements grammarMinijavaVisitor {
 
     @Override
     public Program visitGoal(grammarMinijavaParser.GoalContext ctx) {
-        ctx.mainClass().accept(this);
+        MainClass mainClass = (MainClass) ctx.mainClass().accept(this);
+        ClassDeclList declList = new ClassDeclList();
 
         for(grammarMinijavaParser.ClassDeclarationContext c : ctx.classDeclaration()) {
-            c.accept(this);
+            declList.addElement((ClassDecl) c.accept(this));
         }
 
-        return (Program) ctx.accept(this);
+        return new Program(mainClass, declList);
     }
 
     @Override
     public Object visitMainClass(grammarMinijavaParser.MainClassContext ctx) {
-        ctx.identifier(0).accept(this);
-        ctx.identifier(1).accept(this);
-        ctx.statement().accept(this);
+        Identifier i1 = (Identifier) ctx.identifier(0).accept(this);
+        Identifier i2 = (Identifier) ctx.identifier(1).accept(this);
+        Statement s = (Statement) ctx.statement().accept(this);
 
-        return ctx.accept(this);
+        return new MainClass(i1, i2, s);
     }
 
     @Override
     public Object visitClassDeclaration(grammarMinijavaParser.ClassDeclarationContext ctx) {
-        ctx.identifier(0).accept(this);
-        if(ctx.identifier().size() > 1) {
-            ctx.identifier(1).accept(this);
-        }
-
+        VarDeclList varDeclList= new VarDeclList();
         for(grammarMinijavaParser.VarDeclarationContext v : ctx.varDeclaration()) {
-            v.accept(this);
+            varDeclList.addElement((VarDecl) v.accept(this));
         }
 
+        MethodDeclList methodDeclList = new MethodDeclList();
         for(grammarMinijavaParser.MethodDeclarationContext m : ctx.methodDeclaration()) {
-            m.accept(this);
+            methodDeclList.addElement((MethodDecl) m.accept(this));
         }
 
-        return ctx.accept(this);
+        Identifier i1 = (Identifier) ctx.identifier(0).accept(this);
+        if(ctx.identifier().size() > 1) {
+            Identifier i2 = (Identifier) ctx.identifier(1).accept(this);
+            return new ClassDeclExtends(i1, i2, varDeclList, methodDeclList);
+        }
+
+        return new ClassDeclSimple(i1, varDeclList, methodDeclList);
     }
 
     @Override
     public Object visitVarDeclaration(grammarMinijavaParser.VarDeclarationContext ctx) {
-        ctx.type().accept(this);
-        ctx.identifier().accept(this);
+        Type t = (Type) ctx.type().accept(this);
+        Identifier i = (Identifier) ctx.identifier().accept(this);
 
-        return ctx.accept(this);
+        return new VarDecl(t, i);
     }
 
     @Override
     public Object visitMethodDeclaration(grammarMinijavaParser.MethodDeclarationContext ctx) {
-        for(grammarMinijavaParser.TypeContext t : ctx.type()) {
-            t.accept(this);
+        Type t = (Type) ctx.type(0).accept(this);
+        Identifier i = (Identifier) ctx.identifier(0).accept(this);
+
+        FormalList formalList = new FormalList();
+        for (int j = 1; j < ctx.type().size(); j++) {
+            Formal f = new Formal((Type) ctx.type(j).accept(this), (Identifier) ctx.identifier(j).accept(this));
+            formalList.addElement(f);
         }
 
-        for(grammarMinijavaParser.IdentifierContext i : ctx.identifier()) {
-            i.accept(this);
+        VarDeclList varDeclList = new VarDeclList();
+        for (grammarMinijavaParser.VarDeclarationContext vc : ctx.varDeclaration()) {
+            VarDecl v = (VarDecl) vc.accept(this);
+            varDeclList.addElement(v);
         }
 
-        for(grammarMinijavaParser.VarDeclarationContext v : ctx.varDeclaration()) {
-            v.accept(this);
+        StatementList statementList = new StatementList();
+        for (grammarMinijavaParser.StatementContext sc : ctx.statement()) {
+            Statement s = (Statement) sc.accept(this);
+            statementList.addElement(s);
         }
 
-        for(grammarMinijavaParser.StatementContext s : ctx.statement()) {
-            s.accept(this);
-        }
+        Exp e = (Exp) ctx.expression().accept(this);
 
-        ctx.expression().accept(this);
-
-        return ctx.accept(this);
+        return new MethodDecl(t, i, formalList, varDeclList, statementList, e);
     }
 
     @Override
@@ -88,24 +97,56 @@ public class MiniJavaVisitor implements grammarMinijavaVisitor {
             return new BooleanType();
         } else if(type.equals("int")) {
             return new IntegerType();
+        } else {
+            return new IdentifierType(type);
         }
-
-        return ctx.identifier().accept(this);
     }
 
     @Override
     public Object visitStatement(grammarMinijavaParser.StatementContext ctx) {
-        for(grammarMinijavaParser.StatementContext s : ctx.statement()) {
-            s.accept(this);
+        String str = ctx.getStart().getText();
+        if ("{".equals(str)) {
+            StatementList statementList = new StatementList();
+            for (grammarMinijavaParser.StatementContext s : ctx.statement()) {
+                Statement stm = (Statement) s.accept(this);
+                statementList.addElement(stm);
+            }
+
+            return new Block(statementList);
+
+        } else if ("if".equals(str)) {
+            Exp e = (Exp) ctx.expression(0).accept(this);
+            Statement s1 = (Statement) ctx.statement(0).accept(this);
+            Statement s2 = (Statement) ctx.statement(1).accept(this);
+
+            return new If(e, s1, s2);
+
+        } else if ("System.out.println".equals(str)) {
+            Exp e = (Exp) ctx.expression(0).accept(this);
+
+            return new Print(e);
+
+        } else if ("while".equals(str)) {
+            Exp e = (Exp) ctx.expression(0).accept(this);
+            Statement s1 = (Statement) ctx.statement(0).accept(this);
+
+            return new While(e, s1);
+
+        } else {
+            if (ctx.expression().size() > 1) {
+                Identifier i = (Identifier) ctx.identifier().accept(this);
+                Exp e1 = (Exp) ctx.expression(0).accept(this);
+                Exp e2 = (Exp) ctx.expression(1).accept(this);
+
+                return new ArrayAssign(i, e1, e2);
+
+            } else {
+                Identifier i = (Identifier) ctx.identifier().accept(this);
+                Exp e = (Exp) ctx.expression(0).accept(this);
+
+                return new Assign(i, e);
+            }
         }
-
-        for(grammarMinijavaParser.ExpressionContext e : ctx.expression()) {
-            e.accept(this);
-        }
-
-        //ctx.identifier().accept(this);
-
-        return ctx.accept(this);
     }
 
     @Override
@@ -118,7 +159,7 @@ public class MiniJavaVisitor implements grammarMinijavaVisitor {
             }
 
             if(ctx.identifier() != null) {
-                if(ctx.getText() != null) {
+                if(ctx.getText().contains("new")) {
                     return new NewObject((Identifier) ctx.identifier().accept(this));
                 } else {
                     return new IdentifierExp(ctx.getText());
